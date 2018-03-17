@@ -5,8 +5,8 @@ import {
   View,
   TextInput
 } from 'react-native'
-import {getByCity} from './call_api'
-import Forecast from './Forecast.js'
+import {getByCity} from './lib/call_api'
+import Forecast from './components/Forecast'
 
 export default class WeatherNow extends Component {
   constructor (props) {
@@ -46,9 +46,9 @@ export default class WeatherNow extends Component {
               placeholder='Enter city here' />
           </View>
         </View>
-        {/* if (this.state.forecast.main !== null) { */}
+        if (this.state.forecast.main !== null) {
           <Forecast {...this.state} />
-        {/* } */}
+        }
       </View>
     )
   }
