@@ -30,7 +30,7 @@ export default class extends Component {
           {this.props.description}
         </Text>
         <Text style={styles.bigText}>
-          Temperature: {this.props.temp} K
+          Temperature: {this.props.temp} °C
         </Text>
         <Text style={styles.bigText}>
           Windspeed: {this.props.windspeed} m/s
@@ -41,11 +41,11 @@ export default class extends Component {
         <Text style={styles.bigText}>
           Humidity: {this.props.humidity} %
         </Text>
-        <Text style={styles.mainText}>
-          {this.convertToLocalTime(this.props.sunrise, this.props.city)}
+        <Text style={styles.bigText}>
+          Sunrise: {this.convertToLocalTime(this.props.sunrise, this.props.city)}
         </Text>
-        <Text style={styles.mainText}>
-          {this.convertToLocalTime(this.props.sunset, this.props.city)}
+        <Text style={styles.bigText}>
+          Sunset: {this.convertToLocalTime(this.props.sunset, this.props.city)}
         </Text>
       </View>
     )
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   weatherIcon: {
     width: 50,
-    height: 50,
+    height: 70,
     alignSelf: 'center'
   }
 })
