@@ -3,17 +3,21 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput
+  TextInput,
+  Button
 } from 'react-native'
-import {getByCity} from './lib/call_api'
+import {getByCity, getByCoords} from './lib/call_api'
 import Forecast from './components/Forecast'
+import MyMap from './components/MyMap'
 
 export default class WeatherNow extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      zip: null,
-      forecast: null
+      forecast: null,
+      latitude: null,
+      longitude: null,
+      error: null
     }
   }
   handleInputChange (event) {
@@ -35,6 +39,24 @@ export default class WeatherNow extends Component {
         icon={this.state.forecast.weather[0].icon} />
     } else return <Text style={styles.cityName}>Nothing to display yet</Text>
   }
+  getLocation () {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.setState({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          error: null
+        })
+        getByCoords(position.coords, this)
+      },
+      (error) => this.setState({ error: error.message })
+    )
+  }
+  displayMap () {
+    if (this.state.latitude !== null) {
+      return <MyMap latitude={this.state.latitude} longitude={this.state.longitude} />
+    }
+  }
   render () {
     return (
       <View style={styles.container}>
@@ -50,6 +72,14 @@ export default class WeatherNow extends Component {
               placeholderTextColor='#FFFFFF'
               placeholder='Enter city here' />
           </View>
+          <Text style={styles.welcomeText}>OR</Text>
+          <View style={styles.locBtnDiv}>
+            <Button
+              onPress={() => this.getLocation()}
+              title='Locate Me'
+              style={styles.getLocBtn} />
+          </View>
+          <MyMap latitude={this.state.latitude} longitude={this.state.longitude} />
         </View>
         <View style={styles.resultView}>
           {this.displayView()}
@@ -71,8 +101,8 @@ const styles = StyleSheet.create({
   },
   zipContainer: {
     flex: 1,
-    borderBottomColor: '#DDDDDD',
-    borderBottomWidth: 1,
+    // borderBottomColor: '#DDDDDD',
+    // borderBottomWidth: 1,
     display: 'flex',
     marginLeft: 0,
     marginTop: 3,
@@ -80,8 +110,9 @@ const styles = StyleSheet.create({
   },
   welcomeText: {
     flex: 1,
-    fontSize: 20,
-    color: '#FFFFFF'
+    // fontSize: 20,
+    color: '#FFFFFF',
+    alignSelf: 'center'
   },
   inputBox: {
     flex: 2,
@@ -97,5 +128,12 @@ const styles = StyleSheet.create({
   },
   resultView: {
     flex: 2
+  },
+  getLocBtn: {
+    color: '#000051',
+    flex: 1
+  },
+  locBtnDiv: {
+    flex: 1
   }
 })
