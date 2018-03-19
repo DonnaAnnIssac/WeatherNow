@@ -13,22 +13,27 @@ export default class WeatherNow extends Component {
     super(props)
     this.state = {
       zip: null,
-      forecast: {
-        main: null,
-        description: null,
-        temp: null,
-        pressure: null,
-        humidity: null,
-        windspeed: null,
-        sunrise: null,
-        sunset: null,
-        city: null
-      }
+      forecast: null
     }
   }
   handleInputChange (event) {
     let city = event.nativeEvent.text
     getByCity(city, this)
+  }
+  displayView () {
+    if (this.state.forecast) {
+      return <Forecast
+        main={this.state.forecast.weather[0].main}
+        description={this.state.forecast.weather[0].description}
+        temp={this.state.forecast.main.temp}
+        windspeed={this.state.forecast.wind.speed}
+        pressure={this.state.forecast.main.pressure}
+        humidity={this.state.forecast.main.humidity}
+        sunrise={this.state.forecast.sys.sunrise}
+        sunset={this.state.forecast.sys.sunset}
+        city={this.state.forecast.name}
+        icon={this.state.forecast.weather[0].icon} />
+    } else return <Text style={styles.cityName}>Nothing to display yet</Text>
   }
   render () {
     return (
@@ -46,9 +51,9 @@ export default class WeatherNow extends Component {
               placeholder='Enter city here' />
           </View>
         </View>
-        if (this.state.forecast.main !== null) {
-          <Forecast {...this.state} />
-        }
+        <View style={styles.resultView}>
+          {this.displayView()}
+        </View>
       </View>
     )
   }
@@ -89,5 +94,8 @@ const styles = StyleSheet.create({
     width: '60%',
     fontSize: 16,
     color: '#FFFFFF'
+  },
+  resultView: {
+    flex: 2
   }
 })
