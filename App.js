@@ -55,7 +55,7 @@ export default class WeatherNow extends Component {
   displayMap () {
     if (this.state.latitude !== null) {
       return <MyMap latitude={this.state.latitude} longitude={this.state.longitude} />
-    }
+    } else return null
   }
   render () {
     return (
@@ -79,7 +79,9 @@ export default class WeatherNow extends Component {
               title='Locate Me'
               style={styles.getLocBtn} />
           </View>
-          <MyMap latitude={this.state.latitude} longitude={this.state.longitude} />
+          <View style={styles.mapContainer}>
+            {this.displayMap()}
+          </View>
         </View>
         <View style={styles.resultView}>
           {this.displayView()}
@@ -134,6 +136,9 @@ const styles = StyleSheet.create({
     flex: 1
   },
   locBtnDiv: {
+    flex: 1
+  },
+  mapContainer: {
     flex: 1
   }
 })
