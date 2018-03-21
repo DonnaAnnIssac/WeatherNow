@@ -18,19 +18,19 @@ export default class Current extends Component {
     return (
     <View style={styles.details}>
       <Text style={styles.bigText}>
-        Windspeed: {this.props.speed} m/s
+        Windspeed: {this.props.screenProps.wind.speed} m/s
       </Text>
       <Text style={styles.bigText}>
-        Pressure: {this.props.pressure} hPa
+        Pressure: {this.props.screenProps.main.pressure} hPa
       </Text>
       <Text style={styles.bigText}>
-        Humidity: {this.props.humidity} %
+        Humidity: {this.props.screenProps.main.humidity} %
       </Text>
       <Text style={styles.bigText}>
-        Sunrise: {this.convertToLocalTime(this.props.sunrise)}
+        Sunrise: {this.convertToLocalTime(this.props.screenProps.sys.sunrise)}
       </Text>
       <Text style={styles.bigText}>
-        Sunset: {this.convertToLocalTime(this.props.sunset)}
+        Sunset: {this.convertToLocalTime(this.props.screenProps.sys.sunset)}
       </Text>
     </View>
     )
@@ -39,12 +39,12 @@ export default class Current extends Component {
 
 const styles = StyleSheet.create({
   details: {
-    flex: 2.5,
+    // flex: 2.5,
     display: 'flex',
     flexDirection: 'column'
   },
   bigText: {
-    flex: 1,
+    // flex: 1,
     fontSize: 16,
     textAlign: 'center',
     color: '#FFFFFF'
