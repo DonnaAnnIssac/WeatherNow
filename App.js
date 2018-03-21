@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     margin: 0,
-    backgroundColor: '#000051',
+    backgroundColor: '#37474f',
   },
   inputContainer: {
     height: '100%',
@@ -147,13 +147,11 @@ const styles = StyleSheet.create({
   mapContainer: {
     width: '100%',
     height: '100%',
-    flex: 2
+    flex: 1.5
   },
   resultView: {
     width: '100%',
     height: '100%',
-    flex: 3,
-    // borderWidth: 2,
-    // borderColor: 'yellow'
+    flex: 3
   }
 })
