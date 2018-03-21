@@ -27,17 +27,9 @@ export default class WeatherNow extends Component {
   displayView () {
     if (this.state.forecast) {
       return <Forecast
-        main={this.state.forecast.weather[0].main}
-        description={this.state.forecast.weather[0].description}
-        temp={this.state.forecast.main.temp}
-        windspeed={this.state.forecast.wind.speed}
-        pressure={this.state.forecast.main.pressure}
-        humidity={this.state.forecast.main.humidity}
-        sunrise={this.state.forecast.sys.sunrise}
-        sunset={this.state.forecast.sys.sunset}
-        city={this.state.forecast.name}
-        icon={this.state.forecast.weather[0].icon} />
-    } else return <Text style={styles.cityName}>Nothing to display yet</Text>
+        forecast={this.state.forecast} />
+      // return <ResultView />
+    } else return null
   }
   getLocation () {
     navigator.geolocation.getCurrentPosition(
@@ -60,17 +52,19 @@ export default class WeatherNow extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <View style={styles.zipContainer}>
-          <Text style={styles.welcomeText}>
-            Where are you now?
-          </Text>
-          <View style={styles.inputBox}>
-            <TextInput
-              underlineColorAndroid={'transparent'}
-              style={styles.cityName}
-              onSubmitEditing={(event) => this.handleInputChange(event)}
-              placeholderTextColor='#FFFFFF'
-              placeholder='Enter city here' />
+        <View style={styles.inputContainer}>
+          <View style={styles.textInputContainer}>
+            <Text style={styles.inputLabel}>
+              Where are you now?
+            </Text>
+            <View style={styles.inputBox}>
+              <TextInput
+                underlineColorAndroid={'transparent'}
+                style={styles.cityName}
+                onSubmitEditing={(event) => this.handleInputChange(event)}
+                placeholderTextColor='#FFFFFF'
+                placeholder='Enter city here' />
+            </View>
           </View>
           <Text style={styles.welcomeText}>OR</Text>
           <View style={styles.locBtnDiv}>
@@ -79,10 +73,10 @@ export default class WeatherNow extends Component {
               title='Locate Me'
               style={styles.getLocBtn} />
           </View>
-          <View style={styles.mapContainer}>
+        </View>
+        <View style={styles.mapContainer}>
             {this.displayMap()}
           </View>
-        </View>
         <View style={styles.resultView}>
           {this.displayView()}
         </View>
@@ -96,49 +90,70 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingTop: 30,
     height: '100%',
     width: '100%',
-    backgroundColor: '#000051'
+    margin: 0,
+    backgroundColor: '#000051',
   },
-  zipContainer: {
+  inputContainer: {
+    height: '100%',
+    width: '100%',
     flex: 1,
-    // borderBottomColor: '#DDDDDD',
-    // borderBottomWidth: 1,
     display: 'flex',
-    marginLeft: 0,
-    marginTop: 3,
-    marginBottom: 10
+    marginTop: 10,
+  },
+  textInputContainer: {
+    flex: 2,
+    display: 'flex',
+    flexDirection: 'row',
+    margin: 0
+  },
+  inputLabel: {
+    flex: 1,
+    marginLeft: 10,
+    alignSelf: 'center',
+    color: '#FFFFFF'
+  },
+  inputBox: {
+    flex: 1,
+    margin: 0,
+    display: 'flex',
+  },
+  cityName: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    padding: 0,
+    margin: 0,
+    borderWidth: 0,
+    color: '#FFFFFF'
   },
   welcomeText: {
     flex: 1,
-    // fontSize: 20,
-    color: '#FFFFFF',
-    alignSelf: 'center'
-  },
-  inputBox: {
-    flex: 2,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  cityName: {
-    flex: 1,
-    width: '60%',
-    fontSize: 16,
+    alignSelf: 'center',
+    marginBottom: 5,
     color: '#FFFFFF'
   },
-  resultView: {
-    flex: 2
+  locBtnDiv: {
+    flex: 2,
+    display: 'flex',
+    margin: 0,
+    alignItems: 'center'
   },
   getLocBtn: {
     color: '#000051',
-    flex: 1
-  },
-  locBtnDiv: {
-    flex: 1
+    flex: 1,
   },
   mapContainer: {
-    flex: 1
+    width: '100%',
+    height: '100%',
+    flex: 2
+  },
+  resultView: {
+    width: '100%',
+    height: '100%',
+    flex: 3,
+    // borderWidth: 2,
+    // borderColor: 'yellow'
   }
 })
