@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { View, StyleSheet, Text } from 'react-native';
 // import Moment from 'moment-timezone'
 
-export default class TabViewExample extends React.Component {
+export default class Current extends Component {
   appendZeroes (time) {
     return (time.toString().length === 1) ? '0' + time : time
   }
