@@ -5,48 +5,47 @@ import {
     View,
     Image
 } from 'react-native'
-// import Moment from 'moment-timezone'
+import Current from './Current'
+
+weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 export default class extends Component {
   appendZeroes (time) {
     return (time.toString().length === 1) ? '0' + time : time
   }
-  convertToLocalTime (ts, city) {
-    let date = new Date(ts * 1000)
-    let hours = (date.getHours())
-    let minutes = date.getMinutes()
-    let seconds = date.getSeconds()
-    return (this.appendZeroes(hours) + ' : ' + this.appendZeroes(minutes) + ' : ' + this.appendZeroes(seconds))
-    // return Moment().tz(ts, city)
+  getDate () {
+    let today = new Date()
+    let day = weekdays[today.getDay()]
+    let dd = today.getDate()
+    let mm = today.getMonth() + 1
+    let yyyy = today.getFullYear()
+    return (day + ', ' + this.appendZeroes(dd) + ' ' + this.appendZeroes(mm) + ' ' + this.appendZeroes(yyyy))
   }
   render () {
     return (
       <View style={styles.outputBox}>
-        <Text style={styles.bigText}>
-          {this.props.main}
-        </Text>
-        <Image style={styles.weatherIcon} source={{uri: 'http://openweathermap.org/img/w/' + this.props.icon + '.png'}} />
-        <Text style={styles.bigText}>
-          {this.props.description}
-        </Text>
-        <Text style={styles.bigText}>
-          Temperature: {this.props.temp} °C
-        </Text>
-        <Text style={styles.bigText}>
-          Windspeed: {this.props.windspeed} m/s
-        </Text>
-        <Text style={styles.bigText}>
-          Pressure: {this.props.pressure} hPa
-        </Text>
-        <Text style={styles.bigText}>
-          Humidity: {this.props.humidity} %
-        </Text>
-        <Text style={styles.bigText}>
-          Sunrise: {this.convertToLocalTime(this.props.sunrise, this.props.city)}
-        </Text>
-        <Text style={styles.bigText}>
-          Sunset: {this.convertToLocalTime(this.props.sunset, this.props.city)}
-        </Text>
+        <View style={styles.dateBox}>
+          <Text style={styles.dateInfo}>
+            {this.getDate()} {this.props.forecast.name}, {this.props.forecast.sys.country}
+          </Text>
+        </View>
+        <View style={styles.mainBox}>
+          <Text style={styles.mainText}>
+            {this.props.forecast.main.temp} °C
+          </Text>
+          <View style={styles.iconDesc}>
+            <Image style={styles.weatherIcon} source={{uri: 'http://openweathermap.org/img/w/' + this.props.forecast.weather[0].icon + '.png'}} />
+            <Text style={styles.iconText}>
+              {this.props.forecast.weather[0].main}
+            </Text>
+          </View>
+        </View>
+        <Current
+          speed={this.props.forecast.wind.speed}
+          pressure={this.props.forecast.main.pressure}
+          humidity={this.props.forecast.main.humidity}
+          sunrise={this.props.forecast.sys.sunrise}
+          sunset={this.props.forecast.sys.sunset} />
       </View>
     )
   }
@@ -56,24 +55,46 @@ const styles = StyleSheet.create({
   outputBox: {
     flex: 3,
     display: 'flex',
-    marginTop: 20,
-    marginBottom: 10
+    flexDirection: 'column',
+    marginBottom: 5
   },
-  bigText: {
-    flex: 1,
-    fontSize: 20,
-    textAlign: 'center',
-    color: '#FFFFFF'
+  dateBox: {
+    flex: 0.5,
+    display: 'flex'
   },
-  mainText: {
+  dateInfo: {
     flex: 1,
     fontSize: 16,
     textAlign: 'center',
     color: '#FFFFFF'
   },
+  mainBox: {
+    flex: 3,
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  mainText: {
+    flex: 2,
+    fontSize: 56,
+    textAlign: 'center',
+    alignSelf: 'center',
+    color: '#FFFFFF'
+  },
+  iconDesc: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+  },
   weatherIcon: {
-    width: 50,
+    flex: 3,
+    width: 70,
     height: 70,
     alignSelf: 'center'
+  },
+  iconText: {
+    flex: 1,
+    fontSize: 20,
+    textAlign: 'center',
+    color: '#FFFFFF'
   }
 })
