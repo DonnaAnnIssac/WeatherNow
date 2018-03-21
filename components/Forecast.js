@@ -9,7 +9,7 @@ import Current from './Current'
 
 weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
-export default class extends Component {
+export default class Forecast extends Component {
   appendZeroes (time) {
     return (time.toString().length === 1) ? '0' + time : time
   }
