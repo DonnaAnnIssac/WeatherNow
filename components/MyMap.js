@@ -4,7 +4,7 @@ import {
     Image,
     StyleSheet
 } from 'react-native'
-const config = require('../config')
+import config from '../config'
 
 export default class extends Component {
   render () {
@@ -22,8 +22,8 @@ const styles = StyleSheet.create({
     flex: 1
   },
   mapImage: {
-    width: 50,
-    height: 70,
+    width: '100%',
+    height: '100%',
     alignSelf: 'center'
   }
 })
